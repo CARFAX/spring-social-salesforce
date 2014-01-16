@@ -18,7 +18,7 @@ public class ChatterTemplateTest extends AbstractSalesforceTest {
 
     @Test
     public void getProfile() {
-        mockServer.expect(requestTo("https://na7.salesforce.com/services/data/v23.0/chatter/users/me"))
+        mockServer.expect(requestTo("https://na7.salesforce.com/services/data/" + AbstractSalesForceOperations.API_VERSION + "/chatter/users/me"))
                 .andExpect(method(GET))
                 .andRespond(withResponse(loadResource("profile.json"), responseHeaders));
         SalesforceProfile profile = salesforce.chatterOperations().getUserProfile();
@@ -33,7 +33,7 @@ public class ChatterTemplateTest extends AbstractSalesforceTest {
 
     @Test
     public void getStatus() {
-        mockServer.expect(requestTo("https://na7.salesforce.com/services/data/v23.0/chatter/users/me/status"))
+        mockServer.expect(requestTo("https://na7.salesforce.com/services/data/" + AbstractSalesForceOperations.API_VERSION + "/chatter/users/me/status"))
                 .andExpect(method(GET))
                 .andRespond(withResponse(loadResource("chatter-status.json"), responseHeaders));
 
@@ -44,7 +44,7 @@ public class ChatterTemplateTest extends AbstractSalesforceTest {
 
     @Test
     public void updateStatus() {
-        mockServer.expect(requestTo("https://na7.salesforce.com/services/data/v23.0/chatter/users/me/status"))
+        mockServer.expect(requestTo("https://na7.salesforce.com/services/data/" + AbstractSalesForceOperations.API_VERSION + "/chatter/users/me/status"))
                 .andExpect(method(POST))
                 .andExpect(body("text=Updating+status+via+%23spring-social-salesforce%21"))
                 .andRespond(withResponse(loadResource("chatter-status.json"), responseHeaders));

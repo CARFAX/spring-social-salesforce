@@ -8,7 +8,7 @@ import org.springframework.social.MissingAuthorizationException;
  */
 public class AbstractSalesForceOperations<T extends ApiBinding> {
     
-    public static final String API_VERSION = "v26.0";
+    public static final String API_VERSION = "v29.0";
 
     protected T api;
 
