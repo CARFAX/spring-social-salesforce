@@ -1,6 +1,7 @@
 package org.springframework.social.salesforce.api;
 
 import java.io.InputStream;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -24,5 +25,7 @@ public interface SObjectOperations {
     Map<String, ?> create(String name, Map<String, Object> fields);
     
     Map<String,?> update(String sObjectName, String sObjectId, Map<String, Object> fields);
+
+    GetDeletedResult getDeleted(String name, Date start, Date end);
 
 }

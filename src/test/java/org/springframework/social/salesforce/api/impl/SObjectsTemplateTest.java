@@ -2,15 +2,14 @@ package org.springframework.social.salesforce.api.impl;
 
 import org.junit.Test;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.social.salesforce.api.GetDeletedResult;
 import org.springframework.social.salesforce.api.SObjectDetail;
 import org.springframework.social.salesforce.api.SObjectSummary;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.Assert.*;
 import static org.springframework.http.HttpMethod.GET;
@@ -105,6 +104,43 @@ public class SObjectsTemplateTest extends AbstractSalesforceTest {
         leadData.put("Company", "Acme, Inc.");
         Map<?, ?> result = salesforce.sObjectsOperations().update("Lead", "abc123", leadData);
         assertTrue(result.size() == 0);
+    }
+
+    @Test
+    public  void testGetDeleted(){
+        TimeZone utc = TimeZone.getTimeZone("UTC");
+
+        Calendar start = Calendar.getInstance(utc);
+        start.clear();
+        start.set(2014, 0, 2);
+
+        Calendar end = Calendar.getInstance(utc);
+        end.clear();
+        end.set(2014, 0, 3);
+
+        mockServer.expect(requestTo("https://na7.salesforce.com/services/data/" + AbstractSalesForceOperations.API_VERSION + "/sobjects/Account/deleted/?start=2014-01-02T00:00%2B0000&end=2014-01-03T00:00%2B0000"))
+                .andExpect(method(GET))
+                .andRespond(withResponse(loadResource("deleted.json"), responseHeaders));
+
+        GetDeletedResult deletedResult = salesforce.sObjectsOperations().getDeleted("Account", start.getTime(), end.getTime());
+
+        Calendar deletedDate = Calendar.getInstance(utc);
+        deletedDate.clear();
+        deletedDate.set(2014, 0, 3);
+
+        Calendar earliestAvailable = Calendar.getInstance(utc);
+        earliestAvailable.clear();
+        earliestAvailable.set(2014, 0, 1);
+
+        Calendar latestCovered = Calendar.getInstance(utc);
+        latestCovered.clear();
+        latestCovered.set(2014, 0, 5);
+
+        assertEquals(1, deletedResult.getDeletedRecords().size());
+        assertEquals("001Z000000gFpeGIAS", deletedResult.getDeletedRecords().get(0).getId());
+        assertEquals(deletedDate.getTime(), deletedResult.getDeletedRecords().get(0).getDeletedDate());
+        assertEquals(earliestAvailable.getTime(), deletedResult.getEarliestDateAvailable());
+        assertEquals(latestCovered.getTime(), deletedResult.getLatestDateCovered());
     }
 
 }

@@ -6,10 +6,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.social.salesforce.api.SObjectDetail;
-import org.springframework.social.salesforce.api.SObjectOperations;
-import org.springframework.social.salesforce.api.SObjectSummary;
-import org.springframework.social.salesforce.api.Salesforce;
+import org.springframework.social.salesforce.api.*;
 import org.springframework.social.support.URIBuilder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.ResponseExtractor;
@@ -17,10 +14,9 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Default implementation of SObjectOperations.
@@ -105,7 +101,17 @@ public class SObjectsTemplate extends AbstractSalesForceOperations<Salesforce> i
         }
         return result;
     }
-    
-    
+
+    @Override
+    public GetDeletedResult getDeleted(String name, Date start, Date end) {
+        requireAuthorization();
+        return restTemplate.getForObject(api.getBaseUrl() + "/{version}/sobjects/{name}/deleted/?start={start}&end={end}", GetDeletedResult.class, API_VERSION, name, getIsoDateFormat().format(start), getIsoDateFormat().format(end));
+    }
+
+    private DateFormat getIsoDateFormat(){
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mmZ");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return dateFormat;
+    }
 
 }
