@@ -109,7 +109,7 @@ public class SObjectsTemplate extends AbstractSalesForceOperations<Salesforce> i
     }
 
     private DateFormat getIsoDateFormat(){
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mmZ");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         return dateFormat;
     }

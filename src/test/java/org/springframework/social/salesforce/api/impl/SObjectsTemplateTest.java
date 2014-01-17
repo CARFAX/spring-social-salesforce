@@ -118,7 +118,7 @@ public class SObjectsTemplateTest extends AbstractSalesforceTest {
         end.clear();
         end.set(2014, 0, 3);
 
-        mockServer.expect(requestTo("https://na7.salesforce.com/services/data/" + AbstractSalesForceOperations.API_VERSION + "/sobjects/Account/deleted/?start=2014-01-02T00:00%2B0000&end=2014-01-03T00:00%2B0000"))
+        mockServer.expect(requestTo("https://na7.salesforce.com/services/data/" + AbstractSalesForceOperations.API_VERSION + "/sobjects/Account/deleted/?start=2014-01-02T00:00:00%2B0000&end=2014-01-03T00:00:00%2B0000"))
                 .andExpect(method(GET))
                 .andRespond(withResponse(loadResource("deleted.json"), responseHeaders));
 
