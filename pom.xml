@@ -3,7 +3,7 @@
 
   <groupId>org.springframework.social</groupId>
   <artifactId>spring-social-salesforce</artifactId>
-  <version>1.2.0-SNAPSHOT</version>
+  <version>1.2.3</version>
   <packaging>jar</packaging>
 
   <name>spring-social-salesforce</name>
@@ -44,6 +44,12 @@
       <artifactId>commons-lang3</artifactId>
       <version>${commons-lang3.version}</version>
     </dependency>
+    <dependency>
+	  <groupId>com.force.api</groupId>
+	  <artifactId>force-wsc</artifactId>
+	  <version>29.0.0</version>
+	</dependency>
+            
     
     
     <!-- Logging Dependencies -->
@@ -246,39 +252,16 @@
     </plugins>
   </build>
 
-  <repositories>
+  <distributionManagement>
     <repository>
-      <id>org.springframework.maven.release</id>
-      <name>Spring Maven Release Repository</name>
-      <url>http://maven.springframework.org/release</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
+      <id>artifactory.ecovate.com</id>
+      <name>artifactory.ecovate.com-releases</name>
+      <url>https://artifactory.ecovate.com/artifactory/libs-releases-local</url>
     </repository>
-
-    <repository>
-      <id>org.springframework.maven.snapshot</id>
-      <name>Spring Maven Snapshot Repository</name>
-      <url>http://maven.springframework.org/snapshot</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-
-    <repository>
-      <id>org.springframework.maven.milestone</id>
-      <name>Spring Maven Milestone Repository</name>
-      <url>http://maven.springframework.org/milestone</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
-  
+    <snapshotRepository>
+      <id>artifactory.ecovate.com</id>
+      <name>artifactory.ecovate.com-snapshots</name>
+      <url>https://artifactory.ecovate.com/artifactory/libs-snapshots-local</url>
+    </snapshotRepository>
+  </distributionManagement>
 </project>
