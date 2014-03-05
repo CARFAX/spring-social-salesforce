@@ -1,8 +1,5 @@
 package org.springframework.social.salesforce.api.impl;
 
-import java.io.IOException;
-import java.util.List;
-
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.type.CollectionType;
@@ -18,11 +15,15 @@ import org.springframework.social.salesforce.api.BulkApiOperations;
 import org.springframework.social.salesforce.api.ChatterOperations;
 import org.springframework.social.salesforce.api.QueryOperations;
 import org.springframework.social.salesforce.api.RecentOperations;
+import org.springframework.social.salesforce.api.RestServiceOperations;
 import org.springframework.social.salesforce.api.SObjectOperations;
 import org.springframework.social.salesforce.api.Salesforce;
 import org.springframework.social.salesforce.api.SearchOperations;
 import org.springframework.social.salesforce.api.impl.json.SalesforceModule;
 import org.springframework.web.client.RestTemplate;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Default implementation of Salesforce. This is the main entry point for all
@@ -50,6 +51,8 @@ public class SalesforceTemplate extends AbstractOAuth2ApiBinding implements Sale
     private QueryOperations queryOperations;
 
     private RecentOperations recentOperations;
+
+    private RestServiceOperations restServiceOperations;
 
     private SearchOperations searchOperations;
 
@@ -102,6 +105,11 @@ public class SalesforceTemplate extends AbstractOAuth2ApiBinding implements Sale
     }
 
     @Override
+    public RestServiceOperations restServiceOperations() {
+        return restServiceOperations;
+    }
+
+    @Override
     public SearchOperations searchOperations() {
         return searchOperations;
     }
@@ -116,6 +124,7 @@ public class SalesforceTemplate extends AbstractOAuth2ApiBinding implements Sale
         chatterOperations = new ChatterTemplate(this, getRestTemplate());
         queryOperations = new QueryTemplate(this, getRestTemplate());
         recentOperations = new RecentTemplate(this, getRestTemplate());
+        restServiceOperations = new RestServiceTemplate(this, getRestTemplate());
         searchOperations = new SearchTemplate(this, getRestTemplate());
         sObjectsOperations = new SObjectsTemplate(this, getRestTemplate());
         if (identityServiceUrl != null) {

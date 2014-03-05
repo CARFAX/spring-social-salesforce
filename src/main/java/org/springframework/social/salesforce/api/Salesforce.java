@@ -22,6 +22,8 @@ public interface Salesforce extends ApiBinding {
 
     public RecentOperations recentOperations();
 
+    public RestServiceOperations restServiceOperations();
+
     public SearchOperations searchOperations();
 
     public SObjectOperations sObjectsOperations();
